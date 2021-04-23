@@ -74,9 +74,10 @@ export default Vue.extend({
           this.$message.error(data.message);
         } else {
           this.$store.commit('setUser', data.content)
-          this.$router.push({
-            name: "home"
-          });
+          this.$router.push(this.$route.query.redirect as string || '/')
+          // this.$router.push({
+          //   name: "home"
+          // });
           this.$message.success("登陆成功");
         }
       } catch (error) {
