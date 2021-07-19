@@ -24,3 +24,11 @@ export const getUserInfo = () => {
     url: "/front/user/getInfo"
   });
 };
+// 分页查询用户信息
+export const getUserList = (data: any) => {
+  return request({
+    method: 'post',
+    url: '/boss/user/getUserPages',
+    data
+  })
+}

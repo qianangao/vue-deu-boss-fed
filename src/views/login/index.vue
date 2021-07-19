@@ -3,7 +3,6 @@
     <el-form
       class="login-form"
       :rules="rules"
-      :label-position="labelPosition"
       :model="form"
       ref="form"
     >

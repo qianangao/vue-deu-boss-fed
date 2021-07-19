@@ -6,7 +6,7 @@
       <el-breadcrumb-item>活动列表</el-breadcrumb-item>
       <el-breadcrumb-item>活动详情</el-breadcrumb-item>
     </el-breadcrumb>
-    <el-dropdown @command="handleCommand">
+    <el-dropdown>
       <span class="el-dropdown-link">
         <el-avatar :size="40" src="https://empty" @error="errorHandler">
           <img :src="userInfo.portrait || require('@/assets/q.png')" />

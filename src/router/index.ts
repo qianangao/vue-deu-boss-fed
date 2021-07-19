@@ -51,6 +51,32 @@ const routes: Array<RouteConfig> = [
           import(/* webpackChunkName: 'menu' */ "@/views/menu/index.vue")
       },
       {
+        path: "/menu/create",
+        name: "menu-create",
+        component: () =>
+          import(/* webpackChunkName: 'menu-create' */ "@/views/menu/create.vue")
+      },
+      {
+        path: "/menu/:id/edit",
+        name: "menu-edit",
+        component: () =>
+          import(/* webpackChunkName: 'menu-or-edit' */ "@/views/menu/edit.vue")
+      },
+      {
+        path: "/menu/:roleId/alloc-menu",
+        name: "alloc-menu",
+        component: () =>
+          import(/* webpackChunkName: 'alloc-menu' */ "@/views/role/components/alloc-menu.vue"),
+          props: true // 实现父传子props参数 与 路由传参params 参数的合并
+      },
+      {
+        path: "/menu/:roleId/alloc-resource",
+        name: "alloc-resource",
+        component: () =>
+          import(/* webpackChunkName: 'alloc-menu' */ "@/views/role/components/alloc-resource.vue"),
+          props: true // 实现父传子props参数 与 路由传参params 参数的合并
+      },
+      {
         path: "/resource",
         name: "resource",
         component: () =>
