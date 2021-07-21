@@ -63,12 +63,11 @@
           prop="createTime"
           label="注册时间">
         </el-table-column>
-        <!-- <el-table-column label="操作">
+        <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button size="mini" @click="handleEdit(scope.row)" type="text">编辑</el-button>
-              <el-button size="mini" @click="handleDelete(scope.row)" type="text">删除</el-button>
+              <el-button size="mini" @click="handleAlloc(scope.row)" type="text">分配角色</el-button>
             </template>
-          </el-table-column> -->
+          </el-table-column>
       </el-table>
       <el-pagination
       @size-change="handleSizeChange"
@@ -80,11 +79,30 @@
       :total="total"
       :disabled="isLoading">
     </el-pagination>
+    <el-dialog
+  title="分配角色"
+  :visible.sync="dialogVisible"
+  width="30%">
+    <el-select v-model="roleIdList" multiple placeholder="请选择">
+    <el-option
+      v-for="item in roleList"
+      :key="item.id"
+      :label="item.name"
+      :value="item.id">
+    </el-option>
+  </el-select>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="allocRole">确 定</el-button>
+  </span>
+</el-dialog>
       </el-card>
   </template>
   <script lang="ts">
   import Vue from 'vue'
   import { getUserList } from '@/services/user.ts'
+  import { getAllRole, allocRole, getUserRoleById } from '@/services/role.ts'
+import { Loading } from 'element-ui'
   export default Vue.extend({
     name: 'UserList',
     data () {
@@ -100,13 +118,33 @@
             data: [],
             total: 0,
             isLoading: false,
-            time: ''
+            time: '',
+            dialogVisible: false,
+            roleList: [],
+            roleIdList: [],
+            currentUser: null
         }
     },
     created () {
         this.getUserList()
     },
     methods: {
+      async handleAlloc (user: any) {
+        this.currentUser = user
+        const { data } = await getAllRole()
+        this.roleList = data.data
+        const { data: { data: userRoles } } = await getUserRoleById(user.id)
+        this.roleIdList = userRoles.map(item => item.id)
+        this.dialogVisible = true
+      },
+      async allocRole () {
+        const { data } = await allocRole({
+          userId: this.currentUser.id,
+          roleIdList: this.roleIdList
+        })
+        this.$message.success('操作成功')
+        this.dialogVisible = false
+      },
         async getUserList () {
             this.isLoading = true
             const { data } = await getUserList(this.form)
@@ -124,13 +162,12 @@
           this.getUserList()
       },
       onSubmit () {
-          console.log("this.time", this.time);
           if (this.time) {
               this.form.startCreateTime = this.time[0]
               this.form.endCreateTime = this.time[1]
           }
-        this.getUserList()
         this.form.currentPage = 1
+        this.getUserList()
         },
         resetForm (formName: any) {
             this.$refs[formName].resetFields();

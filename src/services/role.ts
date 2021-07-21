@@ -31,3 +31,25 @@ export const deleteRole = (id: string | number) => {
         url: `/boss/role/${id}`
     })
 }
+// 获取所有角色
+export const getAllRole = () => {
+    return request({
+        method: 'get',
+        url: '/boss/role/all'
+    })
+}
+// 给用户分配角色
+export const allocRole = (data: any) => {
+    return request({
+        method: 'POST',
+        url: '/boss/role/allocateUserRoles',
+        data
+    })
+}
+// 查询用户角色
+export const getUserRoleById = (userId: string | number) => {
+    return request({
+        method: 'get',
+        url: `/boss/role/user/${userId}`
+    })
+}
