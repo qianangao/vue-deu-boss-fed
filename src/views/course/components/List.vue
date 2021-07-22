@@ -65,9 +65,13 @@
           </template>
         </el-table-column>
         <el-table-column label="操作">
-            <template>
-              <el-button size="mini" type="primary">编辑</el-button>
-              <el-button size="mini">内容管理</el-button>
+            <template slot-scope="scope">
+              <el-button size="mini" type="primary" @click="handleEdit(scope.row.id)">编辑</el-button>
+              <el-button size="mini" @click="$router.push({
+                  name:'course-section',
+                  params:{
+                      courseId:scope.row.id
+                  }})">内容管理</el-button>
             </template>
           </el-table-column>
       </el-table>
@@ -106,6 +110,14 @@ export default Vue.extend({
       }
   },
   methods: {
+      handleEdit (courseId: any) {
+          this.$router.push({
+              name: "course-edit",
+              params: {
+                  courseId
+              }
+          })
+      },
       async getCourseList () {
           this.isLoading = true
           const { data } = await getCourseList(this.form)

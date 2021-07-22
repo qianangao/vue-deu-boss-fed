@@ -16,6 +16,16 @@ export const changeState = (params: any) => {
         params
     })
 }
+// 通过课程Id获取课程信息
+export const getCourseById = (courseId: string | number) => {
+    return request({
+        method: 'get',
+        url: '/boss/course/getCourseById',
+        params: {
+            courseId
+        }
+    })
+}
 // 保存或更新课程信息
 export const saveOrUpdateCourse = (data: any) => {
     return request({
@@ -25,7 +35,7 @@ export const saveOrUpdateCourse = (data: any) => {
     })
 }
 // 上传图片
-export const uploadImg = (data: any, onUploadProgress: (progressEvent: any) => void) => {
+export const uploadImg = (data: any, onUploadProgress?: (progressEvent: any) => void) => {
     return request({
         method: 'post',
         url: '/boss/course/upload',
