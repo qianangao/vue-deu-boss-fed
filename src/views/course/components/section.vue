@@ -16,7 +16,16 @@
           </span>
           <span v-else>
               <el-button>编辑</el-button>
-              <el-button>上传视频</el-button>
+              <el-button @click="$router.push({
+                  name:'course-video',
+                  params:{
+                      courseId:courseId
+                  },
+                  query: {
+                      sectionId:node.parent.id,
+                      lessonId: data.id
+                  }
+                  })">上传视频</el-button>
               <el-button>状态</el-button>
           </span>
       </div>
@@ -25,6 +34,7 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable */
 import Vue from 'vue'
 import { getSectionAndLesson, saveOrUpdateLession, saveOrUpdateSection } from '@/services/section.ts'
 export default Vue.extend({
